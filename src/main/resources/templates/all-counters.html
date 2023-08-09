@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Counters</title>
+    <link href="https://cdn.datatables.net/v/bs4/dt-1.13.4/datatables.min.css" rel="stylesheet"/>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+    <link th:href="@{/all-counter-styles.css}" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<div class="container">
+    <h2> Counter information </h2>
+    <br>
+    <table class="table table-border" id="counters-table">
+        <thead class="table-light">
+        <tr>
+            <th> ID counter </th>
+            <th> Value </th>
+            <th class="column"> Action </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="counter : ${allCounters}">
+            <url var="deleteButton" value="/counter/delete-counter">
+                <param name="counterId" value="${counter.id}"/>
+            </url>
+            <td th:text="${counter.id}"></td>
+            <td th:text="${counter.value}"></td>
+
+            <td>
+                <div class="col-md-auto">
+                    <a th:href="@{/counter/delete-counter(counterId=${counter.id})}" class="btn btn-warning"> Delete </a>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a th:href="@{/counter/add-new-counter}" class="btn btn-light"> Create new </a>
+</div>
+
+<p> <a th:href="@{/}"> Go back </a> </p>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/v/bs4/jq-3.6.0/dt-1.13.4/datatables.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#counters-table").DataTable({
+            'aoColumnDefs': [{
+                'bSortable': false,
+                'aTargets': [-1]
+            }]
+        });
+    })
+</script>
+</body>
+</html>

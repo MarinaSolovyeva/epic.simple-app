@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Сведения о счетчике</title>
+    <link th:href="@{/create-counter-styles.css}" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<div class="container">
+    <h2> Creating a counter </h2>
+
+    <form th:action="@{/counter/counters(counterId=${counter.id})}" th:object="${counter}" method="POST">
+        <input type="text" th:field="*{value}" placeholder="Enter the value of the new counter" c
+               lass="form-control col-4 mb-3 input-field"/>
+        <button class="btn btn-primary" type="submit"> Save </button>
+    </form>
+
+    <p> <a th:href="@{/}"> Go back </a> </p>
+</div>
+</body>
+</html>

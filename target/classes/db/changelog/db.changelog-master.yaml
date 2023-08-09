@@ -1,0 +1,49 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003
+      author: Marina
+      changes:
+        - createTable:
+            tableName: counter
+            columns:
+              - column:
+                  name: id
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: value
+                  type: INT
+
+  - changeSet:
+      id: 004
+      author: Marina
+      changes:
+        - insert:
+            tableName: counter
+            columns:
+              - column:
+                  name: id
+                  value: 1056
+              - column:
+                  name: value
+                  value: 20
+        - insert:
+            tableName: counter
+            columns:
+              - column:
+                  name: id
+                  value: 1057
+              - column:
+                  name: value
+                  value: 300
+        - insert:
+            tableName: counter
+            columns:
+              - column:
+                  name: id
+                  value: 1058
+              - column:
+                  name: value
+                  value: 15

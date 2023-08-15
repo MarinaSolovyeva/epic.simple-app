@@ -1,13 +1,13 @@
 version: '3'
 services:
   mysql-db:
-
     image: mysql:latest
     environment:
       MYSQL_ROOT_PASSWORD: 3221
       MYSQL_DATABASE: epic_schema
       MYSQL_ALLOW_EMPTY_PASSWORD: "no"
       dockerfile: dockerfile-SQL
+    restart: unless-stopped
 
   spring-app:
     build:
@@ -16,11 +16,13 @@ services:
       - "8095:8095"
     depends_on:
       - mysql-db
+    restart: unless-stopped
 
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/epic_schema
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: 3221
+
 
 
 

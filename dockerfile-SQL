@@ -1,6 +1,0 @@
-FROM mysql:latest
-ENV MYSQL_ROOT_PASSWORD=3221
-ENV MYSQL_DATABASE=epic_schema
-
-COPY wait-for-it.sh /usr/wait-for-it.sh
-RUN chmod +x /usr/wait-for-it.sh

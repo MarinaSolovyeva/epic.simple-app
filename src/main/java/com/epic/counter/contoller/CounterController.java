@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @Controller
@@ -33,7 +34,7 @@ public class CounterController implements GetCounterApi, IncrementOunterApi {
     @GetMapping("/add-new-counter")
     public String createCounter(Model model) {
         Counter counter = new Counter();
-        counter.setValue(null); // for correct display view
+        counter.setValue(null);
         model.addAttribute("counter", counter);
         return "create-counter";
     }
@@ -69,24 +70,23 @@ public class CounterController implements GetCounterApi, IncrementOunterApi {
     @Override
     public ResponseEntity<InlineResponse200> incrementOunterPost(IncrementRequest body) {
         Integer counterId = Integer.valueOf(body.getCounterId());
-        Integer incrementCount = Integer.valueOf(body.getIncrementCount());
-        if (counterId == null || counterId >= 1_000_000_000 ||
-                incrementCount == null || incrementCount <= 0) {
+        Integer incrementCount = body.getIncrementCount();
+        if (counterId >= 1_000_000_000 || incrementCount <= 0) {
             InlineResponse200 response = new InlineResponse200();
             response.setSuccess(false);
             response.setData(0);
             return ResponseEntity.badRequest().body(response);
         }
         Counter counter = counterService.getCounter(counterId);
-        if (counter != null) {
-            counter.setValue(counter.getValue() + incrementCount);
-            saveCounter(counter);
+        if (counter!=null) {
+            counterService.incrementCounter(counterId, incrementCount);
 
             InlineResponse200 response = new InlineResponse200();
             response.setSuccess(true);
             response.setData(counter.getValue());
             return ResponseEntity.ok(response);
-        } else {
+        }
+        else {
             InlineResponse200 response = new InlineResponse200();
             response.setSuccess(false);
             response.setData(0);
@@ -94,3 +94,4 @@ public class CounterController implements GetCounterApi, IncrementOunterApi {
         }
     }
 }
+

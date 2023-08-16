@@ -13,6 +13,7 @@ import java.util.Optional;
 public class CounterService {
 
     private final CounterRepository counterRepository;
+
     @Autowired
     public CounterService(CounterRepository counterRepository) {
         this.counterRepository = counterRepository;
@@ -38,4 +39,13 @@ public class CounterService {
     public void deleteCounter(int id) {
         counterRepository.deleteById(id);
     }
+
+    @Transactional
+    public synchronized void incrementCounter(Integer counterId, Integer incrementCount) {
+        Counter counter = getCounter(counterId);
+        Integer initialValue = counter.getValue();
+        counter.setValue(initialValue + incrementCount);
+        saveCounter(counter);
+    }
 }
+

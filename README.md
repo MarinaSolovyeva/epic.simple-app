@@ -3,6 +3,8 @@ Run the following command to start the application using Docker Compose:
 ```  
 docker-compose up
 ```
+Welcome to the application:  
+http://localhost:8095
 
 ## Application provides the ability through the UI:      
 

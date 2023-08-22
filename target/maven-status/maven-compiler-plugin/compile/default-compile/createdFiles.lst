@@ -1,8 +1,6 @@
 DTO\InlineResponse200.class
 api\GetCounterApi.class
-com\epic\counter\contoller\CounterController.class
 DTO\InlineResponse404.class
-com\epic\counter\config\SwaggerConfiguration.class
 api\IncrementOunterApi.class
 com\epic\counter\CounterProjectApplication.class
 com\epic\counter\contoller\WelcomeController.class

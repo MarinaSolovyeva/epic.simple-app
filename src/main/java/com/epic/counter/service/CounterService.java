@@ -7,12 +7,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class CounterService {
 
     private final CounterRepository counterRepository;
+    private final Map<Integer, Object> counterLocks = new ConcurrentHashMap<>();
 
     @Autowired
     public CounterService(CounterRepository counterRepository) {
@@ -41,11 +44,13 @@ public class CounterService {
     }
 
     @Transactional
-    public synchronized void incrementCounter(Integer counterId, Integer incrementCount) {
-        Counter counter = getCounter(counterId);
-        Integer initialValue = counter.getValue();
-        counter.setValue(initialValue + incrementCount);
-        saveCounter(counter);
+    public void incrementCounter(Integer counterId, Integer incrementCount) {
+        synchronized (counterLocks.computeIfAbsent(counterId, k -> new Object())) {
+            Counter counter = getCounter(counterId);
+            Integer initialValue = counter.getValue();
+            counter.setValue(initialValue + incrementCount);
+            saveCounter(counter);
+        }
     }
 }
 

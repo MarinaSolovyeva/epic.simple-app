@@ -6,14 +6,13 @@ import api.GetCounterApi;
 import api.IncrementOunterApi;
 import com.epic.counter.model.Counter;
 import com.epic.counter.service.CounterService;
-import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+
 
 @Controller
 @RequestMapping("/counter")
@@ -22,7 +21,6 @@ public class CounterController implements GetCounterApi, IncrementOunterApi {
     @Autowired
     private CounterService counterService;
 
-    @Operation(summary = "Get counters")
     @GetMapping("/counters")
     public String showAllCounters(Model model) {
         List<Counter> allCounters = counterService.getAllCounters();
@@ -30,7 +28,6 @@ public class CounterController implements GetCounterApi, IncrementOunterApi {
         return "all-counters";
     }
 
-    @Operation(summary = "Create a new counter")
     @GetMapping("/add-new-counter")
     public String createCounter(Model model) {
         Counter counter = new Counter();
@@ -39,14 +36,12 @@ public class CounterController implements GetCounterApi, IncrementOunterApi {
         return "create-counter";
     }
 
-    @Operation(summary = "Save a counter")
     @PostMapping("/counters")
     public String saveCounter(@ModelAttribute("counter") Counter counter) {
         counterService.saveCounter(counter);
         return "redirect:/counter/counters";
     }
 
-    @Operation(summary = "Delete a counter")
     @GetMapping("/delete-counter")
     public String deleteCounter(@RequestParam("counterId") int id) {
         counterService.deleteCounter(id);

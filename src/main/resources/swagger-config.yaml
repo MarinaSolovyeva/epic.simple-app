@@ -1,0 +1,95 @@
+openapi: 3.0.3
+info:
+  title: Simple App API
+  description: API for managing counters
+  version: 1.0.0
+
+paths:
+  /get-counter:
+    get:
+      summary: Get the value of a counter
+      parameters:
+        - in: query
+          name: counterId
+          required: true
+          schema:
+            type: string
+          description: ID of the counter
+      responses:
+        '200':
+          description: Counter value returned successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: integer
+        '404':
+          description: Counter not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+
+  /increment-сounter:
+    post:
+      summary: Increment the value of a counter
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IncrementRequest'
+      responses:
+        '200':
+          description: Counter value incremented successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: integer
+        '400':
+          description: Invalid input data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+        '404':
+          description: Counter not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+
+components:
+  schemas:
+    IncrementRequest:
+      type: object
+      properties:
+        counterId:
+          type: string
+        incrementCount:
+          type: integer
+          minimum: 1

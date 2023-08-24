@@ -45,8 +45,8 @@ public class CounterService {
 
     @Transactional
     public void incrementCounter(Integer counterId, Integer incrementCount) {
-        synchronized (counterLocks.computeIfAbsent(counterId, k -> new Object())) {
-            Counter counter = getCounter(counterId);
+        Counter counter = getCounter(counterId);
+        synchronized (counterLocks.computeIfAbsent(counterId, k -> counter)) {
             Integer initialValue = counter.getValue();
             counter.setValue(initialValue + incrementCount);
             saveCounter(counter);
